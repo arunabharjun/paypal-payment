@@ -1,0 +1,33 @@
+{
+  "name": "paypal-payment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arunabharjun/paypal-payment.git"
+  },
+  "keywords": [
+    "paypal",
+    "payment"
+  ],
+  "author": "arunabh arjun",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arunabharjun/paypal-payment/issues"
+  },
+  "homepage": "https://github.com/arunabharjun/paypal-payment#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.9",
+    "morgan": "^1.10.0"
+  }
+}
