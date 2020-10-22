@@ -6,8 +6,9 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-const mongoose = require('mongoose');
+require('express-async-errors');
 const { PORT, ENV, DATABASE } = require('./config');
+const { connectToDataBase } = require('./helpers/db');
 
 /**
  * App
@@ -20,20 +21,6 @@ const app = express();
 const port = PORT;
 const env = ENV;
 const db = DATABASE;
-
-/**
- * Database
- */
-const dbcon = (db_env) => {
-	mongoose
-		.connect(db_env, {
-			useNewUrlParser: true,
-			useCreateIndex: true,
-			useUnifiedTopology: true
-		})
-		.then(() => console.log('[API] : Database Connected'));
-};
-dbcon(db);
 
 /**
  * Middlewares
@@ -60,13 +47,34 @@ const apiRoutes = require('./routes/api');
 app.use('/api', apiRoutes);
 
 /**
- * App Listen
+ * Handling undefined route
+ * (always to be kept at the end of all routes)
  */
 app.use(function(req, res) {
-	res.status(404).json({ error: '404 : Page not found' });
+	res.status(404).json({ error: '404 : Route not found' });
 });
-app.listen(port, () => {
-	console.log(
-		`[API] : Server running on port ${port} | ENVIRONMENT : ${env}`
-	);
-});
+
+/**
+ * Start the app
+ */
+const start = async () => {
+	try {
+		/**
+         * Database
+         */
+		await connectToDataBase(db);
+	} catch (error) {
+		console.error(error);
+	}
+
+	/**
+     * App Listen
+     */
+	app.listen(port, () => {
+		console.log(
+			`[API] : Server running on port ${port} | ENVIRONMENT : ${env}`
+		);
+	});
+};
+
+start();
