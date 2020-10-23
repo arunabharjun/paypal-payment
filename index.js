@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const ejs = require('ejs');
 require('express-async-errors');
 const { PORT, ENV, DATABASE } = require('./config');
 const { connectToDataBase } = require('./helpers/db');
@@ -14,43 +15,40 @@ const { connectToDataBase } = require('./helpers/db');
  * App
  */
 const app = express();
-
-/**
- * Environment
- */
-const port = PORT;
-const env = ENV;
-const db = DATABASE;
+app.set('view engine', 'ejs');
 
 /**
  * Middlewares
  */
 app.use(morgan('dev'));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 /**
  * CORS
  */
-if (env === 'DEVELOPMENT') {
+if (ENV === 'DEVELOPMENT') {
 	app.use(cors());
 }
 
 /**
  * Routes
  */
-const apiRoutes = require('./routes/api');
+const apiRoutes = require('./routes/apiRoutes');
+const viewRoutes = require('./routes/viewRoutes');
 
 /**
  * Route middlewares
  */
 app.use('/api', apiRoutes);
+app.use('/', viewRoutes);
 
 /**
  * Handling undefined route
  * (always to be kept at the end of all routes)
  */
-app.use(function(req, res) {
+app.use((req, res) => {
 	res.status(404).json({ error: '404 : Route not found' });
 });
 
@@ -62,7 +60,7 @@ const start = async () => {
 		/**
          * Database
          */
-		await connectToDataBase(db);
+		await connectToDataBase(DATABASE);
 	} catch (error) {
 		console.error(error);
 	}
@@ -70,9 +68,9 @@ const start = async () => {
 	/**
      * App Listen
      */
-	app.listen(port, () => {
+	app.listen(PORT, () => {
 		console.log(
-			`[API] : Server running on port ${port} | ENVIRONMENT : ${env}`
+			`[API] : Server running on port ${PORT} | ENVIRONMENT : ${ENV}`
 		);
 	});
 };

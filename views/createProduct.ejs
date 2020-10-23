@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a product</title>
+</head>
+
+<body>
+    <h1>Create a product</h1>
+    <form name="productForm" action="/api/create/product" method="POST">
+        <div>
+            <label for="pname">Product Name : </label>
+            <input type="text" name="pname" placeholder="name" required>
+        </div>
+
+        <div>
+            <label for="type">Product type : </label>
+            <select name="type" id="" required>
+                <option value="PHYSICAL">PHYSICAL</option>
+                <option value="DIGITAL">DIGITAL</option>
+                <option value="SERVICE">SERVICE</option>
+            </select>
+        </div>
+
+        <div>
+            <input type="submit" value="CREATE PRODUCT">
+        </div>
+    </form>
+</body>
+
+</html>
