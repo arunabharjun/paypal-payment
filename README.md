@@ -19,7 +19,9 @@ PayPal_API_VERSION = v1
 PayPal_CATELOGS_ENDPOINT = catalogs/products
 ```
 
-3. Using terminal from root directory, install the dependencies
+3. Replace DATABASE, PayPal_CLIENT_ID, PayPal_SECRET with your respective values.
+
+4. Using terminal from root directory, install the dependencies
 ```
 npm install
 ```
