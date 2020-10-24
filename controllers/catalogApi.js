@@ -51,6 +51,28 @@ exports.createProduct = (req, res) => {
 	}
 };
 
+exports.listProducts = (req, res) => {
+	axios
+		.get(catelogAPI, {
+			headers: {
+				Authorization: `Basic ${CLIENT_ID}:${SECRET}`,
+				'Content-Type': 'application/json'
+			}
+		})
+		.then((response) => {
+			console.log('Success');
+			res.json({
+				response
+			});
+		})
+		.catch((error) => {
+			console.log('Error');
+			res.json({
+				error
+			});
+		});
+};
+
 /**
  * Test API Demo
  */
