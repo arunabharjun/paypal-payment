@@ -4,7 +4,8 @@ const {
 	API_VERSION,
 	CATELOGS_ENDPOINT,
 	CLIENT_ID,
-	SECRET
+	SECRET,
+	ACCESS_TOKEN
 } = require('../config');
 
 const api = `${API}/${API_VERSION}`;
@@ -27,8 +28,12 @@ exports.createProduct = (req, res) => {
 	else {
 		axios
 			.post(catelogAPI, {
+				// headers: {
+				// 	Authorization: `Basic ${CLIENT_ID}:${SECRET}`,
+				// 	'Content-Type': 'application/json'
+				// },
 				headers: {
-					Authorization: `Basic ${CLIENT_ID}:${SECRET}`,
+					Authorization: `Bearer ${ACCESS_TOKEN}`,
 					'Content-Type': 'application/json'
 				},
 				data: {
