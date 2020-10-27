@@ -14,6 +14,18 @@ const api = `${API}/${API_VERSION}`;
 const catelogAPI = `${api}/${CATELOGS_ENDPOINT}`;
 
 /**
+ * Common headers & authentication for the requests
+ */
+const headers = {
+	Accept: 'application/json',
+	'Content-Type': 'application/json'
+};
+const auth = {
+	username: CLIENT_ID,
+	password: SECRET
+};
+
+/**
  * Utility function to 
  * create a new product in
  * the PayPal catelog DB
@@ -21,6 +33,11 @@ const catelogAPI = `${api}/${CATELOGS_ENDPOINT}`;
 exports.createProduct = (req, res) => {
 	const name = req.body.pname;
 	const type = req.body.type;
+
+	const data = {
+		name,
+		type
+	};
 
 	if (!name) {
 		res.json({
@@ -36,27 +53,18 @@ exports.createProduct = (req, res) => {
 		axios({
 			method: 'post',
 			url: catelogAPI,
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json'
-			},
-			auth: {
-				username: CLIENT_ID,
-				password: SECRET
-			},
-			data: {
-				name,
-				type
-			}
+			headers,
+			auth,
+			data
 		})
-			.then((resp) => {
-				console.log('Success');
+			.then((response) => {
+				console.log(`Successfully created ${JSON.stringify(data)}`);
 				res.status(200).json({
-					response: resp.data
+					response: response.data
 				});
 			})
 			.catch((error) => {
-				console.log('Error');
+				console.log(`Failed to create ${JSON.stringify(data)}`);
 				res.json({
 					error
 				});
@@ -72,23 +80,19 @@ exports.createProduct = (req, res) => {
 exports.listProducts = (req, res) => {
 	axios
 		.get(catelogAPI, {
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json'
-			},
-			auth: {
-				username: CLIENT_ID,
-				password: SECRET
-			}
+			headers,
+			auth
 		})
 		.then((response) => {
-			console.log('Success');
+			console.log(
+				'Successfully fetched the list of products from catelog.'
+			);
 			res.status(200).json({
 				data: response.data
 			});
 		})
 		.catch((error) => {
-			console.log('Error');
+			console.log('Failed to fetched the list of products from catelog.');
 			res.json({
 				error
 			});
