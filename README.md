@@ -1,5 +1,10 @@
 # PayPal Payments
 
+## 📄 Documentation on PayPal API
+Please follow through the documentation as given in the following link as it narrates how to get the authentication done as paypal official documentation was creating issues while authenticating & also to know about the steps to create subscription.
+
+### [PayPal Wiki](https://github.com/arunabharjun/paypal-payment/wiki)
+
 ## ▶️ Getting Started
 
 1. Open terminal & clone the repo in your project directory
