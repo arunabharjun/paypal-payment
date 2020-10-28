@@ -59,15 +59,17 @@ exports.createProduct = (req, res) => {
 		})
 			.then((response) => {
 				console.log(`Successfully created ${JSON.stringify(data)}`);
-				res.status(200).json({
+				res.status(201).json({
 					response: response.data
 				});
 			})
 			.catch((error) => {
 				console.log(`Failed to create ${JSON.stringify(data)}`);
-				res.json({
-					error
-				});
+				res
+					.status(error.response.status ? error.response.status : 409)
+					.json({
+						error
+					});
 			});
 	}
 };
@@ -93,9 +95,11 @@ exports.listProducts = (req, res) => {
 		})
 		.catch((error) => {
 			console.log('Failed to fetched the list of products from catelog.');
-			res.json({
-				error
-			});
+			res
+				.status(error.response.status ? error.response.status : 409)
+				.json({
+					error
+				});
 		});
 };
 
